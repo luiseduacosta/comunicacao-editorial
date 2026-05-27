@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="col-md-6 col-12">
-                        <label for="pauta-id" class="form-label fw-semibold text-secondary">Vincular a Pauta (Opcional)</label>
+                        <label for="pauta-id" class="form-label fw-semibold text-secondary">Pauta</label>
                         <?= $this->Form->control('pauta_id', [
                             'label' => false,
                             'options' => $pautas,
@@ -48,7 +48,21 @@
                         ]) ?>
                     </div>
 
-                    <div class="col-md-6 col-12 d-flex align-items-center mt-md-3 mt-3 ps-md-4">
+                    <div class="col-md-4 col-12 d-flex align-items-center mt-md-3 mt-3 ps-md-4">
+                        <div class="form-check form-switch p-3 bg-light rounded border w-100 ps-5">
+                            <?= $this->Form->checkbox('arquivar', [
+                                'id' => 'arquivar',
+                                'class' => 'form-check-input ms-n5 mt-1',
+                                'role' => 'switch'
+                            ]) ?>
+                            <label class="form-check-label fw-semibold text-dark ps-2" for="arquivar">
+                                Arquivar
+                            </label>
+                            <div class="text-muted small ps-2 mt-1">Se ativado, a matéria será arquivada.</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-12 d-flex align-items-center mt-md-3 mt-3 ps-md-4">
                         <div class="form-check form-switch p-3 bg-light rounded border w-100 ps-5">
                             <?= $this->Form->checkbox('publicar', [
                                 'id' => 'publicar',
@@ -62,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-12 d-flex align-items-center mt-md-3 mt-3 ps-md-4">
+                    <div class="col-md-4 col-12 d-flex align-items-center mt-md-3 mt-3 ps-md-4">
                         <div class="form-check form-switch p-3 bg-light rounded border w-100 ps-5">
                             <?= $this->Form->checkbox('informandes', [
                                 'id' => 'informandes',
@@ -81,6 +95,7 @@
                         <?= $this->Form->control('conteudo', [
                             'label' => false,
                             'type' => 'textarea',
+                            'id' => 'conteudo',
                             'rows' => 12,
                             'required' => true,
                             'class' => 'form-control bg-light',
@@ -166,3 +181,20 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    (function () {
+        var textarea = document.getElementById('conteudo');
+        if (!textarea) {
+            return;
+        }
+        new EasyMDE({
+            element: textarea,
+            autofocus: false,
+            spellChecker: false,
+            status: false
+        });
+    })();
+</script>

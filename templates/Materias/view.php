@@ -75,9 +75,8 @@ $identity = $this->request->getAttribute('identity');
 
                 <!-- Article Body -->
                 <div class="mt-4 border-top pt-4">
-                    <div class="text-dark p-1" style="white-space: pre-wrap; font-size: 1.1rem; line-height: 1.8; text-align: justify; letter-spacing: 0.2px;">
-                        <?= h($materia->conteudo) ?>
-                    </div>
+                    <div class="text-dark p-1 markdown-body" id="conteudo-rendered" style="font-size: 1.1rem; line-height: 1.8; text-align: justify; letter-spacing: 0.2px;"></div>
+                    <pre id="conteudo-markdown" class="d-none"><?= h($materia->conteudo) ?></pre>
                 </div>
             </div>
         </div>
@@ -110,6 +109,7 @@ $identity = $this->request->getAttribute('identity');
                         <?= $this->Form->control('observacao', [
                             'label' => false,
                             'type' => 'textarea',
+                            'id' => 'observacao',
                             'rows' => 3,
                             'required' => true,
                             'class' => 'form-control bg-light',
@@ -136,7 +136,7 @@ $identity = $this->request->getAttribute('identity');
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <h6 class="fw-bold text-dark mb-0 small">
-                                            <?= $o->hasValue('user') ? h($o->user->username) : 'Anônimo' ?>
+                                            <?= $o->hasValue('user') ? h($o->user->username) : ($o->autor ? h($o->autor) : 'Anónimo') ?>
                                         </h6>
                                         <div class="d-flex align-items-center gap-2">
                                             <small class="text-muted small"><?= h($o->created->format('d/m/Y H:i')) ?></small>
@@ -150,7 +150,8 @@ $identity = $this->request->getAttribute('identity');
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    <div class="text-muted small" style="white-space: pre-wrap;"><?= h($o->observacao) ?></div>
+                                    <div class="text-muted small markdown-only js-observacao-rendered" data-observacao-source="observacao-<?= (int)$o->id ?>"></div>
+                                    <pre id="observacao-<?= (int)$o->id ?>" class="d-none"><?= h($o->observacao) ?></pre>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -233,6 +234,53 @@ $identity = $this->request->getAttribute('identity');
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<script>
+    (function () {
+        var source = document.getElementById('conteudo-markdown');
+        var target = document.getElementById('conteudo-rendered');
+        if (source && target && typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
+            marked.setOptions({
+                gfm: true,
+                breaks: true
+            });
+
+            var markdown = source.textContent || '';
+            var unsafeHtml = marked.parse(markdown);
+            target.innerHTML = DOMPurify.sanitize(unsafeHtml);
+
+            var observacoes = document.querySelectorAll('[data-observacao-source]');
+            for (var i = 0; i < observacoes.length; i++) {
+                var el = observacoes[i];
+                var id = el.getAttribute('data-observacao-source');
+                if (!id) {
+                    continue;
+                }
+                var src = document.getElementById(id);
+                if (!src) {
+                    continue;
+                }
+                var md = src.textContent || '';
+                var html = marked.parse(md);
+                el.innerHTML = DOMPurify.sanitize(html);
+            }
+        }
+
+        var observacao = document.getElementById('observacao');
+        if (observacao && typeof EasyMDE !== 'undefined') {
+            new EasyMDE({
+                element: observacao,
+                autofocus: false,
+                spellChecker: false,
+                status: false,
+                forceSync: true
+            });
+        }
+    })();
+</script>
 <style>
     .hover-primary:hover {
         color: #0d6efd !important;

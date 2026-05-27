@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Utility\Text;
+
 /**
  * Materias Controller
  *
@@ -111,7 +113,7 @@ class MateriasController extends AppController
         if ($pautaId) {
             $materia->pauta_id = (int)$pautaId;
         }
-
+        
         if ($this->request->is('post')) {
             $data = $this->request->getData();
             $uploadedFiles = $this->request->getData('upload_files');
@@ -153,8 +155,23 @@ class MateriasController extends AppController
             }
             $this->Flash->error(__('Não foi possível salvar a matéria. Por favor, tente novamente.'));
         }
-        
-        $pautas = $this->Materias->Pautas->find('list', limit: 200)->all();
+        // Fetch all pautas without materias for dropdown
+        $pautas = $this->Materias->Pautas
+            ->find('list', keyField: 'id', valueField: function ($pauta) {
+                $titulo = $pauta->titulo ?? '';
+                $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
+
+                $titulo = Text::truncate($titulo, 30, [
+                    'ellipsis' => '…',
+                    'exact' => false,
+                ]);
+
+                return $pauta->id . ' - ' . $titulo;
+            })
+            ->select(['Pautas.id', 'Pautas.titulo', 'Pautas.data'])
+            ->orderBy(['Pautas.data' => 'DESC', 'Pautas.id' => 'DESC'])
+            ->notMatching('Materias')
+            ->all();
         $tags = $this->Materias->Tags->find('list', limit: 200)->all();
         $this->set(compact('materia', 'pautas', 'tags'));
     }
@@ -168,7 +185,7 @@ class MateriasController extends AppController
      */
     public function edit($id = null)
     {
-        $materia = $this->Materias->get($id, contain: ['Tags']);
+        $materia = $this->Materias->get($id, contain: ['Tags', 'Pautas']);
 
         // Handle specific attachment deletion request
         $deleteFile = $this->request->getQuery('delete_file');
@@ -221,17 +238,54 @@ class MateriasController extends AppController
             
             $data['anexos'] = !empty($uploadedNames) ? implode(',', $uploadedNames) : null;
             $materia = $this->Materias->patchEntity($materia, $data);
-            
+
             if ($this->Materias->save($materia)) {
                 $this->Flash->success(__('A matéria foi atualizada com sucesso.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Não foi possível salvar a matéria. Por favor, tente novamente.'));
         }
         
-        $pautas = $this->Materias->Pautas->find('list', limit: 200)->all();
-        $tags = $this->Materias->Tags->find('list', limit: 200)->all();
+        $pautas = $this->Materias->Pautas
+            ->find('list', keyField: 'id', valueField: function ($pauta) {
+                $titulo = $pauta->titulo ?? '';
+                $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
+
+                $titulo = Text::truncate($titulo, 20, [
+                    'ellipsis' => '…',
+                    'exact' => false,
+                ]);
+
+                return $pauta->id . ' - ' . $titulo;
+            })
+            ->select(['Pautas.id', 'Pautas.titulo', 'Pautas.data'])
+            ->orderBy(['Pautas.data' => 'DESC', 'Pautas.id' => 'DESC'])
+            ->notMatching('Materias')
+            ->all()
+            ->toArray();
+
+        if ($materia->pauta_id !== null) {
+            $pautaAtual = $this->Materias->Pautas
+                ->find('list', keyField: 'id', valueField: function ($pauta) {
+                    $titulo = $pauta->titulo ?? '';
+                    $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
+
+                    $titulo = Text::truncate($titulo, 20, [
+                        'ellipsis' => '…',
+                        'exact' => false,
+                    ]);
+
+                    return $pauta->id . ' - ' . $titulo;
+                })
+                ->select(['Pautas.id', 'Pautas.titulo', 'Pautas.data'])
+                ->where(['Pautas.id' => $materia->pauta_id])
+                ->all()
+                ->toArray();
+
+            $pautas = $pautaAtual + $pautas;
+        }
+
+        $tags = $this->Materias->Tags->find('list')->all();
         $this->set(compact('materia', 'pautas', 'tags'));
     }
 

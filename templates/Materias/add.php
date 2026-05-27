@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="col-md-6 col-12">
-                        <label for="pauta-id" class="form-label fw-semibold text-secondary">Vincular a Pauta (Opcional)</label>
+                        <label for="pauta-id" class="form-label fw-semibold text-secondary">Vincular a Pauta</label>
                         <?= $this->Form->control('pauta_id', [
                             'label' => false,
                             'options' => $pautas,
@@ -82,6 +82,7 @@
                         <?= $this->Form->control('conteudo', [
                             'label' => false,
                             'type' => 'textarea',
+                            'id' => 'conteudo',
                             'rows' => 12,
                             'required' => true,
                             'class' => 'form-control bg-light',
@@ -141,3 +142,20 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    (function () {
+        var textarea = document.getElementById('conteudo');
+        if (!textarea) {
+            return;
+        }
+        new EasyMDE({
+            element: textarea,
+            autofocus: false,
+            spellChecker: false,
+            status: false
+        });
+    })();
+</script>
