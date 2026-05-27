@@ -1,6 +1,6 @@
 # ANDES-SN Editorial Communication System (comunicacao-jornal)
 
-Welcome to the **ANDES-SN Editorial Communication System**, a premium web application developed using **CakePHP 5.3**, **PHP 8.5+**, and **Bootstrap 5**. Designed specifically for planning editorial agendas (pautas) and drafting articles (matérias), this system features a stunning dark mode navigation bar, clean glassmorphic components, fluid transitions, and the elegant *Outfit* typography from Google Fonts.
+Welcome to the **Editorial Communication System**, a premium web application developed using **CakePHP 5.3**, **PHP 8.5+**, and **Bootstrap 5**. Designed specifically for planning editorial agendas (pautas) and drafting articles (matérias), this system features a stunning dark mode navigation bar, clean glassmorphic components, fluid transitions, and the elegant *Outfit* typography from Google Fonts.
 
 The system is fully compatible with the database schema of its sibling application (`comunicacao-recursos`) but runs with a modern, independent authentication mechanism and an extremely robust, 100% green test suite.
 
