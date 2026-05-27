@@ -79,5 +79,6 @@ class ComentapautasController extends AppController
         }
 
         return $this->redirect(['controller' => 'Pautas', 'action' => 'view', $pautaId]);
+
     }
 }
