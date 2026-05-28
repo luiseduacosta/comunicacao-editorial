@@ -60,9 +60,8 @@ $identity = $this->request->getAttribute('identity');
 
                 <div class="mb-4">
                     <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-align-left text-primary me-2"></i> Descrição / Diretrizes</h5>
-                    <div class="p-4 bg-light rounded-3 text-dark border-start border-primary border-4" style="white-space: pre-wrap; font-size: 1.05rem; line-height: 1.6;">
-                        <?= h($pauta->descricao ?: 'Nenhuma descrição adicionada.') ?>
-                    </div>
+                    <div class="p-4 bg-light rounded-3 text-dark border-start border-primary border-4 markdown-body" id="descricao-rendered" style="font-size: 1.05rem; line-height: 1.6;"></div>
+                    <pre id="descricao-markdown" class="d-none"><?= h($pauta->descricao ?: 'Nenhuma descrição adicionada.') ?></pre>
                 </div>
             </div>
         </div>
@@ -123,7 +122,7 @@ $identity = $this->request->getAttribute('identity');
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <h6 class="fw-bold text-dark mb-0 small">
-                                            <?= $c->hasValue('user') ? h($c->user->username) : 'Anônimo' ?>
+                                            <?= $c->hasValue('user') ? h($c->user->username) : h($c->autor) ?>
                                         </h6>
                                         <div class="d-flex align-items-center gap-2">
                                             <small class="text-muted small"><?= h($c->created->format('d/m/Y H:i')) ?></small>
@@ -201,6 +200,26 @@ $identity = $this->request->getAttribute('identity');
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<script>
+    (function () {
+        var source = document.getElementById('descricao-markdown');
+        var target = document.getElementById('descricao-rendered');
+        if (!source || !target || typeof marked === 'undefined' || typeof DOMPurify === 'undefined') {
+            return;
+        }
+
+        marked.setOptions({
+            gfm: true,
+            breaks: true
+        });
+
+        var markdown = source.textContent || '';
+        var unsafeHtml = marked.parse(markdown);
+        target.innerHTML = DOMPurify.sanitize(unsafeHtml);
+    })();
+</script>
 <style>
     .hover-primary:hover {
         color: #0d6efd !important;

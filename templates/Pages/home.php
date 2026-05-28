@@ -28,7 +28,7 @@ $identity = $this->request->getAttribute('identity');
         <h2 class="fw-bold text-dark mb-1">
             <i class="fa-solid fa-gauge text-primary me-2"></i>Painel Editorial
         </h2>
-        <p class="text-muted mb-0">Bem-vindo ao sistema de planejamento editorial e matérias do ANDES-SN.</p>
+        <p class="text-muted mb-0">Bem-vindo ao sistema de planejamento editorial e matérias do Processo editorial.</p>
     </div>
 </div>
 
@@ -140,7 +140,7 @@ $identity = $this->request->getAttribute('identity');
                                                 <?= h($m->titulo) ?>
                                             </a>
                                         </h6>
-                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10 small"><?= h($m->data->format('d/m/Y')) ?></span>
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10 small"><?= h($m->created->format('d/m/Y')) ?></span>
                                     </div>
                                     <p class="text-muted mb-0 small text-truncate">
                                         Pauta: <strong><?= $m->hasValue('pauta') ? h($m->pauta->descricao) : 'Sem Pauta' ?></strong>

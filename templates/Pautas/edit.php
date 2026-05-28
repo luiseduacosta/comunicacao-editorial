@@ -85,6 +85,7 @@
                         <?= $this->Form->control('descricao', [
                             'label' => false,
                             'type' => 'textarea',
+                            'id' => 'descricao',
                             'rows' => 6,
                             'class' => 'form-control bg-light',
                             'templates' => [
@@ -124,3 +125,21 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    (function () {
+        var textarea = document.getElementById('descricao');
+        if (!textarea || typeof EasyMDE === 'undefined') {
+            return;
+        }
+        new EasyMDE({
+            element: textarea,
+            autofocus: false,
+            spellChecker: false,
+            status: false,
+            forceSync: true
+        });
+    })();
+</script>

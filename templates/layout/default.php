@@ -81,7 +81,7 @@ $identity = $this->request->getAttribute('identity');
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="<?= $this->Url->build('/') ?>">
                 <i class="fa-solid fa-newspaper text-primary me-2"></i>
-                ANDES-SN<span>Editorial</span>
+                Processo editorial<span> Pautas e publicação das matérias</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -144,7 +144,7 @@ $identity = $this->request->getAttribute('identity');
     <!-- Footer -->
     <footer class="footer">
         <div class="container text-center">
-            <p class="mb-0">© 2026 ANDES-SN - Sistema Editorial de Comunicação. Todos os direitos reservados.</p>
+            <p class="mb-0">© 2026 Processo editorial - Sistema Editorial de Comunicação. Todos os direitos reservados.</p>
             <small class="text-muted">Desenvolvido com CakePHP 5 e Bootstrap 5</small>
         </div>
     </footer>
