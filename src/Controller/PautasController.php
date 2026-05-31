@@ -20,6 +20,13 @@ class PautasController extends AppController
         'order' => [
             'Pautas.data' => 'desc',
             'Pautas.id' => 'desc'
+        ],
+        'sortableFields' => [
+            'data',
+            'titulo',
+            'descricao',
+            'arquivar',
+            'informandes'
         ]
     ];
 

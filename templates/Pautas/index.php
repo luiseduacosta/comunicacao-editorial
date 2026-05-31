@@ -72,10 +72,21 @@ $informandes = $this->request->getQuery('informandes');
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th class="py-3 ps-4" style="width: 120px;">Data</th>
-                        <th class="py-3">Descrição</th>
-                        <th class="py-3 text-center" style="width: 180px;">Destinação</th>
-                        <th class="py-3 text-center" style="width: 180px;">Status / Ações</th>
+                        <th class="py-3 ps-4" style="width: 120px; cursor: pointer;">
+                            <?= $this->Paginator->sort('data', 'Data') ?>
+                        </th>
+                        <th class="py-3" style="cursor: pointer;">
+                            <?= $this->Paginator->sort('titulo', 'Título') ?>
+                        </th>
+                        <th class="py-3" style="cursor: pointer;">
+                            <?= $this->Paginator->sort('descricao', 'Descrição') ?>
+                        </th>
+                        <th class="py-3 text-center" style="width: 180px;">
+                            <?= $this->Paginator->sort('informandes', 'Destinação') ?>
+                        </th>
+                        <th class="py-3 text-center" style="width: 180px;">
+                            Ações
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +102,11 @@ $informandes = $this->request->getQuery('informandes');
                                             Pauta #<?= $pauta->id ?>
                                         </a>
                                     </div>
+                                    <div class="text-muted small text-truncate-2" style="max-height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                        <?= h($pauta->titulo ?: 'Sem título informado.') ?>
+                                    </div>
+                                </td>
+                                <td class="py-3">
                                     <div class="text-muted small text-truncate-2" style="max-height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                         <?= h($pauta->descricao ?: 'Sem descrição informada.') ?>
                                     </div>
