@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string $conteudo
  * @property bool $arquivar
  * @property bool $informandes
- * @property int $publicar
+ * @property bool $publicar
  * @property string|null $anexos
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified

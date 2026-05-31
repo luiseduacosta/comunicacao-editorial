@@ -44,6 +44,7 @@
                             'label' => false,
                             'options' => $pautas,
                             'empty' => 'Sem Pauta Vinculada',
+                            'required' => false,
                             'class' => 'form-select bg-light py-2.5',
                             'templates' => ['inputContainer' => '{{content}}']
                         ]) ?>
@@ -130,9 +131,10 @@
                             <a href="<?= $this->Url->build(['action' => 'index']) ?>" class="btn btn-outline-danger rounded-pill px-4 py-2">
                                 <i class="fa-solid fa-times me-1"></i> Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success rounded-pill px-4 py-2 shadow-sm">
-                                <i class="fa-solid fa-save me-1"></i> Salvar Matéria
-                            </button>
+                            <?= $this->Form->button('Salvar Matéria', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-success rounded-pill px-4 py-2 shadow-sm',
+                            ]) ?>
                         </div>
                     </div>
                 </div>
@@ -151,11 +153,32 @@
         if (!textarea) {
             return;
         }
-        new EasyMDE({
+        
+        var easyMDE = new EasyMDE({
             element: textarea,
             autofocus: false,
             spellChecker: false,
             status: false
         });
+        
+        // Garantir que o textarea original fica visível para validação
+        textarea.style.display = 'block';
+        
+        // Sincronizar conteúdo do editor antes de enviar o formulário
+        var form = textarea.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Garantir que o conteúdo do editor seja sincronizado com o textarea
+                var content = easyMDE.value();
+                textarea.value = content;
+                
+                // Validar se o campo obrigatório está preenchido
+                if (!content || content.trim() === '') {
+                    e.preventDefault();
+                    alert('Por favor, preencha o campo Conteúdo da Matéria.');
+                    return false;
+                }
+            });
+        }
     })();
 </script>

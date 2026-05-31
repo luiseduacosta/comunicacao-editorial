@@ -190,11 +190,32 @@
         if (!textarea) {
             return;
         }
-        new EasyMDE({
+        
+        var easyMDE = new EasyMDE({
             element: textarea,
             autofocus: false,
             spellChecker: false,
             status: false
         });
+        
+        // Garantir que o textarea original fica visível para validação
+        textarea.style.display = 'block';
+        
+        // Sincronizar conteúdo do editor antes de enviar o formulário
+        var form = textarea.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Garantir que o conteúdo do editor seja sincronizado com o textarea
+                var content = easyMDE.value();
+                textarea.value = content;
+                
+                // Validar se o campo obrigatório está preenchido
+                if (!content || content.trim() === '') {
+                    e.preventDefault();
+                    alert('Por favor, preencha o campo Conteúdo da Matéria.');
+                    return false;
+                }
+            });
+        }
     })();
 </script>

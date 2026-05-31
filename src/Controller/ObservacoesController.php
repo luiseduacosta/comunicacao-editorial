@@ -24,8 +24,8 @@ class ObservacoesController extends AppController
             $identity = $this->request->getAttribute('identity');
             if ($identity) {
                 $data['user_id'] = $identity->id;
-            }
-            
+                $data['autor'] = $identity->username;
+            }            
             $observaco = $this->Observacoes->patchEntity($observaco, $data);
             if ($this->Observacoes->save($observaco)) {
                 $this->Flash->success(__('Observação adicionada com sucesso.'));

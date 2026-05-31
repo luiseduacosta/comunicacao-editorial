@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Utility\Text;
+use Cake\View\Helper\UrlHelper;
 
 /**
  * Materias Controller
@@ -147,11 +148,10 @@ class MateriasController extends AppController
             
             $data['anexos'] = !empty($uploadedNames) ? implode(',', $uploadedNames) : null;
             $materia = $this->Materias->patchEntity($materia, $data);
-            
             if ($this->Materias->save($materia)) {
                 $this->Flash->success(__('A matéria foi cadastrada com sucesso.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $materia->id]);
             }
             $this->Flash->error(__('Não foi possível salvar a matéria. Por favor, tente novamente.'));
         }
@@ -161,7 +161,7 @@ class MateriasController extends AppController
                 $titulo = $pauta->titulo ?? '';
                 $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
 
-                $titulo = Text::truncate($titulo, 30, [
+                $titulo = Text::truncate($titulo, 40, [
                     'ellipsis' => '…',
                     'exact' => false,
                 ]);
@@ -241,7 +241,7 @@ class MateriasController extends AppController
 
             if ($this->Materias->save($materia)) {
                 $this->Flash->success(__('A matéria foi atualizada com sucesso.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $materia->id]);
             }
             $this->Flash->error(__('Não foi possível salvar a matéria. Por favor, tente novamente.'));
         }
@@ -251,7 +251,7 @@ class MateriasController extends AppController
                 $titulo = $pauta->titulo ?? '';
                 $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
 
-                $titulo = Text::truncate($titulo, 20, [
+                $titulo = Text::truncate($titulo, 40, [
                     'ellipsis' => '…',
                     'exact' => false,
                 ]);
@@ -270,7 +270,7 @@ class MateriasController extends AppController
                     $titulo = $pauta->titulo ?? '';
                     $titulo = trim(preg_replace('/\s+/', ' ', $titulo));
 
-                    $titulo = Text::truncate($titulo, 20, [
+                    $titulo = Text::truncate($titulo, 40, [
                         'ellipsis' => '…',
                         'exact' => false,
                     ]);

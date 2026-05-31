@@ -99,8 +99,15 @@ $search = $this->request->getQuery('search');
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th class="py-3">Matéria</th>
-                        <th class="py-3 text-center" style="width: 150px;">Veículo</th>
+                        <th class="py-3" style="cursor: pointer;">
+                            <?= $this->Paginator->sort('titulo', 'Matéria') ?>
+                        </th>
+                        <th class="py-3 text-center" style="width: 120px; cursor: pointer;">
+                            <?= $this->Paginator->sort('created', 'Data') ?>
+                        </th>
+                        <th class="py-3 text-center" style="width: 150px;">
+                            <?= $this->Paginator->sort('informandes', 'Veículo') ?>
+                        </th>
                         <th class="py-3 text-center" style="width: 120px;">Anexos</th>
                         <th class="py-3 text-center" style="width: 180px;">Ações</th>
                     </tr>
@@ -130,6 +137,15 @@ $search = $this->request->getQuery('search');
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
+                                </td>
+                                <td class="py-3 text-center text-secondary small">
+                                    <?php if ($materia->created): ?>
+                                        <span title="<?= $materia->created->format('d/m/Y H:i:s') ?>">
+                                            <?= $materia->created->format('d/m/Y') ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="text-muted">-</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="py-3 text-center">
                                     <?php if ($materia->informandes): ?>
@@ -191,7 +207,7 @@ $search = $this->request->getQuery('search');
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="4" class="text-center py-5">
+                            <td colspan="5" class="text-center py-5">
                                 <i class="fa-solid fa-newspaper fa-3x mb-3 text-secondary opacity-25"></i>
                                 <h5 class="fw-bold">Nenhuma matéria encontrada</h5>
                                 <p class="text-muted mb-0 small">Experimente redefinir os seus critérios de busca ou cadastre um novo artigo.</p>

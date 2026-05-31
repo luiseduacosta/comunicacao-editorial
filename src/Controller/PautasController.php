@@ -85,7 +85,7 @@ class PautasController extends AppController
             if ($this->Pautas->save($pauta)) {
                 $this->Flash->success(__('A pauta foi cadastrada com sucesso.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $pauta->id]);
             }
             $this->Flash->error(__('Não foi possível cadastrar a pauta. Por favor, tente novamente.'));
         }
@@ -107,7 +107,7 @@ class PautasController extends AppController
             if ($this->Pautas->save($pauta)) {
                 $this->Flash->success(__('A pauta foi atualizada com sucesso.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $pauta->id]);
             }
             $this->Flash->error(__('Não foi possível salvar a pauta. Por favor, tente novamente.'));
         }

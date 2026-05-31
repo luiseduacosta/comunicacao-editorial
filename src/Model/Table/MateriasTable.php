@@ -87,14 +87,14 @@ class MateriasTable extends Table
 
         $validator
             ->boolean('arquivar')
-            ->notEmptyString('arquivar');
+            ->allowEmptyString('arquivar');
 
         $validator
             ->boolean('informandes')
-            ->notEmptyString('informandes');
+            ->allowEmptyString('informandes');
 
         $validator
-            ->integer('publicar')
+            ->boolean('publicar')
             ->allowEmptyString('publicar');
 
         $validator

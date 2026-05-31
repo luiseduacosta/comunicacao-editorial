@@ -89,7 +89,7 @@ $identity = $this->request->getAttribute('identity');
             <div class="card-body p-4">
                 <!-- Add observation form -->
                 <div class="mb-4 pb-4 border-bottom">
-                    <?= $this->Form->create($observaco, ['url' => ['controller' => 'Observacoes', 'action' => 'add']]) ?>
+                    <?= $this->Form->create($observaco, ['url' => ['controller' => 'Observacoes', 'action' => 'add'], 'class' => 'add-observation-form']) ?>
                     <?= $this->Form->hidden('materia_id', ['value' => $materia->id]) ?>
                     <div class="mb-3">
                         <label for="autor" class="form-label fw-semibold text-secondary small">Nome/Autor da Observação</label>
@@ -97,8 +97,8 @@ $identity = $this->request->getAttribute('identity');
                             'label' => false,
                             'type' => 'text',
                             'maxlength' => 50,
+                            'required' => true,
                             'class' => 'form-control bg-light',
-                            'placeholder' => 'Digite seu nome ou identificação...',
                             'templates' => [
                                 'inputContainer' => '{{content}}'
                             ]
@@ -113,7 +113,6 @@ $identity = $this->request->getAttribute('identity');
                             'rows' => 3,
                             'required' => true,
                             'class' => 'form-control bg-light',
-                            'placeholder' => 'Adicione anotações, edições sugeridas ou comentários internos sobre esta matéria...',
                             'templates' => ['inputContainer' => '{{content}}']
                         ]) ?>
                     </div>
