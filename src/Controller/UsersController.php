@@ -61,7 +61,7 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $user->id]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -85,11 +85,11 @@ class UsersController extends AppController
             }
             $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('O administrador foi salvo com sucesso.'));
+                $this->Flash->success(__('O usuário foi salvo com sucesso.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $user->id]);
             }
-            $this->Flash->error(__('Não foi possível salvar o administrador. Por favor, tente novamente.'));
+            $this->Flash->error(__('Não foi possível salvar o usuário. Por favor, tente novamente.'));
         }
         $this->set(compact('user'));
     }
@@ -106,9 +106,9 @@ class UsersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+            $this->Flash->success(__('O usuário foi excluído com sucesso.'));
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->Flash->error(__('O usuário não foi excluído. Por favor, tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);
